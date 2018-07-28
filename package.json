@@ -1,0 +1,19 @@
+{
+  "name": "redux-touch-keyboard",
+  "version": "1.0.0",
+  "description": "A React/Redux virtual keyboard for touchscreens (kiosk applications etc.)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rebsp/redux-touch-keyboard.git"
+  },
+  "author": "Philipp Rebsamen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rebsp/redux-touch-keyboard/issues"
+  },
+  "homepage": "https://github.com/rebsp/redux-touch-keyboard#readme"
+}
