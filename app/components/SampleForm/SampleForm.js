@@ -42,6 +42,7 @@ class SampleForm extends React.Component {
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.removeKey = this.removeKey.bind(this);
   }
   handleOpenModal() {
     this.setState({ showModal: true });
@@ -53,6 +54,11 @@ class SampleForm extends React.Component {
 
   putKey(value) {
     this.props.change(this.state.focus, (this.props.formValues[this.state.focus] || "") + value);
+  }
+
+  removeKey() {
+    let curVal = this.props.formValues[this.state.focus] || "";
+    this.props.change(this.state.focus, curVal.slice(0, -1));
   }
 
   focusElement(name) {
@@ -83,7 +89,7 @@ class SampleForm extends React.Component {
            ariaHideApp={false}
            style={customStyles}
         >
-          <Keyboard keyPressed={(value) => this.putKey(value)} />
+          <Keyboard preview={this.props.formValues[this.state.focus]} backspacePressed={this.removeKey} keyPressed={(value) => this.putKey(value)} onRequestClose={this.handleCloseModal} />
         </ReactModal>
       </form>
     );

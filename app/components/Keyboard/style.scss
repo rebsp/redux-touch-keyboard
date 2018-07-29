@@ -1,0 +1,44 @@
+.vkeyboard {
+
+  .keyboard-preview {
+    display: block;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    height: 25px;
+    margin-bottom: 8px;
+    padding: 0 4px;
+    font-family: inherit;
+  }
+
+  button {
+    height: 50px;
+    margin: 2px;
+    font-size: 20px;
+    border: 1px solid #999;
+    border-radius: 2px;
+  }
+
+  button.keyboard-key {
+    width: 50px;
+  }
+
+  button.keyboard-shift,
+  button.keyboard-backspace,
+  button.keyboard-accept,
+  button.keyboard-symbols {
+    width: 104px;
+  }
+
+  button.keyboard-space {
+    width: 266px;
+  }
+
+  button.keyboard-accept {
+    background-color: rgb(0, 180, 0);
+    color: white;
+  }
+
+  .keyboard-row {
+    text-align: center;
+  }
+}
