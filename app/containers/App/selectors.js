@@ -3,41 +3,19 @@
  */
 
 import { createSelector } from 'reselect';
+import { formValueSelector } from 'redux-form/immutable';
 
 const selectGlobal = (state) => state.get('global');
 
-const selectRoute = (state) => state.get('route');
+const selectState = (state) => state;
 
-const makeSelectCurrentUser = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('currentUser')
-);
+const formValues = formValueSelector('sample');
 
-const makeSelectLoading = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('loading')
-);
-
-const makeSelectError = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('error')
-);
-
-const makeSelectRepos = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
-);
-
-const makeSelectLocation = () => createSelector(
-  selectRoute,
-  (routeState) => routeState.get('location').toJS()
-);
+const makeSelectFormValues = () => createSelector(
+  selectState,
+  (state) => formValues(state, 'username', 'email', 'age')
+)
 
 export {
-  selectGlobal,
-  makeSelectCurrentUser,
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectRepos,
-  makeSelectLocation,
+  makeSelectFormValues
 };

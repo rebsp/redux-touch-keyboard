@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form/immutable' // <--- immutable import
 import ReactModal from 'react-modal';
+import Keyboard from 'components/Keyboard';
 
 
 const renderField = ({
@@ -19,6 +20,17 @@ const renderField = ({
     </div>
   </div>
 )
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 class SampleForm extends React.Component {
   constructor(props) {
@@ -40,26 +52,21 @@ class SampleForm extends React.Component {
   }
 
   putKey(value) {
-    console.log(value);
-    this.props.change(this.state.focus, value);
+    this.props.change(this.state.focus, (this.props.formValues[this.state.focus] || "") + value);
+  }
+
+  focusElement(name) {
+    this.setState({ showModal: true, focus: name });
+    document.activeElement.blur();
   }
 
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <Field
-            name="username"
-            type="text"
-            component={renderField}
-            label="Username"
-            onFocus={(e, name) => {
-              this.setState({ showModal: true, focus: name })
-              document.activeElement.blur()
-            }}
-        />
-        <Field name="email" type="email" component={renderField} label="Email" />
-        <Field name="age" type="number" component={renderField} label="Age" />
+        <Field name="username" type="text" component={renderField} label="Username" onFocus={(e, name) => this.focusElement(name)} />
+        <Field name="email" type="email" component={renderField} label="Email" onFocus={(e, name) => this.focusElement(name)} />
+        <Field name="age" type="number" component={renderField} label="Age" onFocus={(e, name) => this.focusElement(name)} />
         <div>
             <button type="submit" disabled={submitting}>
             Submit
@@ -74,8 +81,9 @@ class SampleForm extends React.Component {
            onRequestClose={this.handleCloseModal}
            shouldCloseOnOverlayClick={true}
            ariaHideApp={false}
+           style={customStyles}
         >
-          <p onClick={() => this.putKey('juhu')}>Modal text!</p>
+          <Keyboard keyPressed={(value) => this.putKey(value)} />
         </ReactModal>
       </form>
     );

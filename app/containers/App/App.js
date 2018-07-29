@@ -10,9 +10,9 @@ import React from 'react';
 import SampleForm from 'components/SampleForm';
 import './style.scss';
 
-const App = () => (
+const App = (props) => (
   <div className="app-wrapper">
-    <SampleForm/>
+    <SampleForm formValues={props.formValues} />
   </div>
 );
 
