@@ -1,6 +1,6 @@
 import React from 'react'
 import { chde, symbols } from './layouts';
-
+import { SPACE, ACCEPT, SYMBOLS, BACKSPACE, SHIFT, LABEL_ABC, LABEL_SYMBOLS } from "./constants";
 import './style.scss';
 
 class Keyboard extends React.Component {
@@ -8,11 +8,17 @@ class Keyboard extends React.Component {
     super(props);
     this.state = {
       showSymbols: false,
-      uppercase: false,
+      uppercase: this.isUppercase(),
     };
 
     this.handleShiftClick = this.handleShiftClick.bind(this);
     this.handleSymbolsClick = this.handleSymbolsClick.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.preview !== prevProps.preview) {
+      this.setState({ uppercase: this.isUppercase() });
+    }
   }
 
   getKeys() {
@@ -35,7 +41,12 @@ class Keyboard extends React.Component {
   }
 
   getSymbolLabel() {
-    return this.state.showSymbols ? "ABC" : "?123";
+    return this.state.showSymbols ? LABEL_ABC : LABEL_SYMBOLS;
+  }
+
+  isUppercase() {
+    const { preview } = this.props;
+    return !preview || (preview.length > 0 && preview[preview.length - 1] === ' ');
   }
 
   render() {
@@ -43,34 +54,34 @@ class Keyboard extends React.Component {
     const { keyPressed, backspacePressed, onRequestClose } = this.props;
     return (
       <div className="vkeyboard">
-        <p class="keyboard-preview">{this.props.preview || ""}</p>
+        <p className="keyboard-preview">{this.props.preview || ""}</p>
         { keys.map((row, i) =>
           <div key={`r${i}`} className="keyboard-row">
-            { row.map((button, ii) => {
+            { row.map((button, j) => {
                 switch (button.toLowerCase()) {
-                  case "{shift}":
+                  case SHIFT:
                     return (
-                      <button className="keyboard-shift" key={`b${ii}`} onClick={this.handleShiftClick}>{"\u21e7"}</button>
+                      <button className="keyboard-shift" key={`b${j}`} onClick={this.handleShiftClick}>{"\u21e7"}</button>
                     );
-                  case "{backspace}":
+                  case BACKSPACE:
                     return (
-                      <button className="keyboard-backspace" key={`b${ii}`} onClick={backspacePressed}>{"\u232b"}</button>
+                      <button className="keyboard-backspace" key={`b${j}`} onClick={backspacePressed}>{"\u232b"}</button>
                     );
-                  case "{?123}":
+                  case SYMBOLS:
                     return (
-                      <button className="keyboard-symbols" key={`b${ii}`} onClick={this.handleSymbolsClick}>{this.getSymbolLabel()}</button>
+                      <button className="keyboard-symbols" key={`b${j}`} onClick={this.handleSymbolsClick}>{this.getSymbolLabel()}</button>
                     );
-                  case "{space}":
+                  case SPACE:
                     return (
-                      <button className="keyboard-space" key={`b${ii}`} onClick={() => keyPressed(" ")}>{"\u2423"}</button>
+                      <button className="keyboard-space" key={`b${j}`} onClick={() => keyPressed(" ")}>{"\u2423"}</button>
                     );
-                  case "{accept}":
+                  case ACCEPT:
                     return (
-                      <button className="keyboard-accept" key={`b${ii}`} onClick={onRequestClose}>{"\u21b5"}</button>
+                      <button className="keyboard-accept" key={`b${j}`} onClick={onRequestClose}>{"\u21b5"}</button>
                     );
                   default:
                     return (
-                      <button className="keyboard-key" key={`b${ii}`} onClick={() => keyPressed(button)}>{button}</button>
+                      <button className="keyboard-key" key={`b${j}`} onClick={() => keyPressed(button)}>{button}</button>
                     );
                 }
               }
