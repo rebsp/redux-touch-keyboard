@@ -1,5 +1,5 @@
 import React from 'react'
-import { chde, symbols } from './layouts';
+import { chde, symbols, numpad } from './layouts';
 import { SPACE, ACCEPT, SYMBOLS, BACKSPACE, SHIFT, LABEL_ABC, LABEL_SYMBOLS } from "./constants";
 import './style.scss';
 
@@ -25,7 +25,11 @@ class Keyboard extends React.Component {
     let keysSet;
     if (this.state.showSymbols) {
       keysSet = symbols;
-    } else {
+    } 
+    else if (this.props.layout === "numpad") {
+      keysSet = numpad;
+    }
+    else {
       keysSet = chde;
     }
 
@@ -51,10 +55,10 @@ class Keyboard extends React.Component {
 
   render() {
     const keys = this.getKeys();
-    const { keyPressed, backspacePressed, onRequestClose } = this.props;
+    const { keyPressed, backspacePressed, onRequestClose, preview, layout } = this.props;
     return (
       <div className="vkeyboard">
-        <p className="keyboard-preview">{this.props.preview || ""}</p>
+        <p className="keyboard-preview">{preview || ""}</p>
         { keys.map((row, i) =>
           <div key={`r${i}`} className="keyboard-row">
             { row.map((button, j) => {
@@ -77,7 +81,7 @@ class Keyboard extends React.Component {
                     );
                   case ACCEPT:
                     return (
-                      <button className="keyboard-accept" key={`b${j}`} onClick={onRequestClose}>{"\u21b5"}</button>
+                      <button className={layout === "numpad" ? "keyboard-accept numpad" : "keyboard-accept"} key={`b${j}`} onClick={onRequestClose}>{"\u21b5"}</button>
                     );
                   default:
                     return (

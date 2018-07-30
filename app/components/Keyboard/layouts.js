@@ -13,3 +13,10 @@ export const symbols = [
 	[SHIFT, '*', '"', '\'', ':', ';', '!', '?', BACKSPACE],
   [SYMBOLS, ',', SPACE, '.', ACCEPT]
 ];
+
+export const numpad = [
+	['7', '8', '9'],
+	['4', '5', '6'],
+	['1', '2', '3'],
+	['0', '.', ACCEPT]
+];

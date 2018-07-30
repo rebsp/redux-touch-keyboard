@@ -37,7 +37,8 @@ class SampleForm extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      focus: false
+      focus: false,
+      layour: false
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -61,8 +62,8 @@ class SampleForm extends React.Component {
     this.props.change(this.state.focus, curVal.slice(0, -1));
   }
 
-  focusElement(name) {
-    this.setState({ showModal: true, focus: name });
+  focusElement(name, layout = false) {
+    this.setState({ showModal: true, focus: name, layout });
     document.activeElement.blur();
   }
 
@@ -72,7 +73,7 @@ class SampleForm extends React.Component {
       <form onSubmit={handleSubmit}>
         <Field name="username" type="text" component={renderField} label="Username" onFocus={(e, name) => this.focusElement(name)} />
         <Field name="email" type="email" component={renderField} label="Email" onFocus={(e, name) => this.focusElement(name)} />
-        <Field name="age" type="number" component={renderField} label="Age" onFocus={(e, name) => this.focusElement(name)} />
+        <Field name="age" type="number" component={renderField} label="Age" onFocus={(e, name) => this.focusElement(name, "numpad")} />
         <div>
             <button type="submit" disabled={submitting}>
             Submit
@@ -89,7 +90,7 @@ class SampleForm extends React.Component {
            ariaHideApp={false}
            style={customStyles}
         >
-          <Keyboard preview={this.props.formValues[this.state.focus]} backspacePressed={this.removeKey} keyPressed={(value) => this.putKey(value)} onRequestClose={this.handleCloseModal} />
+          <Keyboard layout={this.state.layout} preview={this.props.formValues[this.state.focus]} backspacePressed={this.removeKey} keyPressed={(value) => this.putKey(value)} onRequestClose={this.handleCloseModal} />
         </ReactModal>
       </form>
     );
